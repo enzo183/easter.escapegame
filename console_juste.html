@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Escape Game Chocolat</title>
+<style>
+body { font-family:sans-serif; background:#0f0f14; color:#f2f2f7; margin:0; padding:0; display:flex; flex-direction:column; align-items:center; min-height:100vh; }
+button { margin:8px; padding:10px 16px; cursor:pointer; border-radius:6px; background:#6c9ef8; color:white; border:none; }
+button:hover { filter:brightness(1.1); }
+.view { display:none; width:100%; max-width:800px; padding:20px; }
+#home { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
+input { padding:8px; margin:6px; width:220px; }
+#result { margin-top:12px; font-weight:bold; font-size:18px; }
+#hint { margin-top:8px; color:#ffd166; }
+</style>
+</head>
+<body>
+
+<!-- ===== Page d'accueil ===== -->
+<div id="home" class="view" style="display:flex;">
+  <h1>Bienvenue à l'enquête chocolat 🍫</h1>
+  <button onclick="showView('console')">🔍 Console de l'enquête</button>
+  <button onclick="showView('decrypt')">🕵️ Déchiffreur d'énigme</button>
+</div>
+
+<!-- ===== Console ===== -->
+<div id="console" class="view">
+  <h2>Console de l'enquête</h2>
+  <div id="consoleContent">
+    <!-- Ici tu peux copier tout ton HTML/JS console existant -->
+    <p><!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Console d'enquête — Œuf disparu</title>
+  <style>
+    :root {
+      --bg: #0f0f14;
+      --panel: #16161d;
+      --muted: #7a7a8c;
+      --text: #f2f2f7;
+      --ok: #3ddc84;
+      --warn: #ffd166;
+      --err: #ff6b6b;
+      --accent: #6c9ef8;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    html,body { height:100%; }
+    body {
+      margin:0; background: radial-gradient(1200px 800px at 20% -10%, #202033 0%, var(--bg) 60%);
+      color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      display:grid; place-items:center; padding:24px;
+    }
+    .app { width:min(780px, 100%); background: linear-gradient(180deg, #171722, #13131a);
+      border:1px solid #23233a; border-radius:20px; box-shadow: var(--shadow); overflow:hidden; }
+    header { padding:20px 24px; display:flex; align-items:center; gap:14px; border-bottom:1px solid #23233a; background:rgba(255,255,255,0.02); }
+    header .badge { font-size:12px; letter-spacing:.12em; color:#cbd5ff; background:rgba(108,158,248,.1); border:1px solid rgba(108,158,248,.3); padding:6px 10px; border-radius:999px; }
+    header h1 { font-size:20px; margin:0; font-weight:700; }
+
+    .content { padding:24px; display:grid; gap:18px; }
+    .card { background: var(--panel); border:1px solid #24243a; border-radius:16px; padding:18px; box-shadow: var(--shadow); }
+    .stage-title { margin:0 0 8px; font-size:16px; letter-spacing:.02em; }
+    .progress { height:6px; background:#1e1e2b; border-radius:999px; overflow:hidden; }
+    .progress > i { display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), #7bcfff); transition:width .5s ease; }
+
+    .row { display:flex; gap:10px; }
+    .row > * { flex:1; }
+    input[type="text"] {
+      background:#12121a; border:1px solid #2a2a3d; border-radius:12px; padding:14px 14px; color:var(--text);
+      outline:none; font-size:16px; letter-spacing:.03em; width:100%;
+    }
+    input::placeholder { color:#888aa0; }
+    button { background:linear-gradient(180deg, #2a2a48, #22223a); color:#dce6ff; border:1px solid #2f3257; padding:12px 16px; border-radius:12px; font-weight:600; cursor:pointer; }
+    button:hover { filter:brightness(1.09); }
+    .hint { color:var(--muted); font-size:14px; line-height:1.5; }
+    .log { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:#101019; border:1px dashed #2b2b40; border-radius:12px; padding:12px; color:#c8c8da; font-size:14px; }
+
+    .toast { position:fixed; inset:auto 20px 20px auto; background:#141420; border:1px solid #2b2b4f; color:#dce6ff; padding:12px 16px; border-radius:12px; box-shadow:var(--shadow); opacity:0; transform:translateY(10px); transition: all .3s ease; }
+    .toast.show { opacity:1; transform:translateY(0); }
+
+    .celebrate { position:fixed; inset:0; pointer-events:none; }
+    .celebrate i { position:absolute; width:8px; height:8px; border-radius:50%; background: white; opacity:.9; animation: fall 1.4s ease-out forwards; }
+    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity:0; } }
+
+    .gm-toggle { position:fixed; top:12px; right:12px; opacity:.6; }
+    .gm-panel { position:fixed; top:48px; right:12px; width:280px; background:#131320; border:1px solid #2a2a46; border-radius:14px; padding:12px; display:none; box-shadow:var(--shadow); }
+    .gm-panel h3 { margin:6px 0 8px; font-size:14px; color:#cbd5ff; }
+    .gm-panel label { display:block; font-size:12px; color:#b7b7c9; margin:8px 0 4px; }
+    .gm-panel input { width:100%; font-size:13px; }
+    .small { font-size:12px; color:#9aa0b6; }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <header>
+      <span class="badge">BRIGADE DU CHOCOLAT</span>
+      <h1>Console d'enquête – L'affaire de l'Œuf disparu</h1>
+    </header>
+
+    <div class="content">
+      <div class="card">
+        <p class="hint">Entre l'<strong>indice</strong> découvert pour chaque étape et valide pour débloquer la suivante. Les réponses sont insensibles aux accents et à la casse. Besoin d'aide ? Utilise « Demander un indice ».</p>
+        <div class="progress" aria-label="progression"><i id="bar"></i></div>
+      </div>
+
+      <div id="stages"></div>
+
+      <div class="card">
+        <div class="row">
+          <input id="answerInput" type="text" placeholder="Saisir la réponse de l'étape en cours… (ex: TAPISSERIE)" autocomplete="off" />
+          <button id="validateBtn">Valider</button>
+          <button id="hintBtn" title="-1 indice">Demander un indice</button>
+        </div>
+        <p id="helper" class="hint"></p>
+      </div>
+
+      <div class="card log" id="log" aria-live="polite">
+        Bienvenue enquêtrice. Étape 1 en attente…
+      </div>
+    </div>
+  </div>
+
+  <button class="gm-toggle" id="gmToggle">🎛️</button>
+  <div class="gm-panel" id="gmPanel">
+    <h3>Panneau Game Master</h3>
+    <label>Aller à l'étape #</label>
+    <input type="number" id="gmJump" min="1" max="10" value="1">
+    <button id="gmApply">Aller</button>
+    <p class="small">Raccourcis :
+      <br>• <strong>Alt+N</strong> : forcer étape suivante
+      <br>• <strong>Alt+H</strong> : donner l'indice courant
+    </p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div class="celebrate" id="celebrate"></div>
+
+<script>
+// -------- Configuration des étapes --------
+const config = {
+  stages: [
+    {
+      title: "Énigme 1 — Le calcul",
+      prompt: "Résous le calcul et traduis le résultat en lettres. Entre ta réponse ici.",
+      type: "input",
+	  hint: "Faut calculer hein...",
+      answers: ["Tiroir à culottes"], // le vrai mot après déchiffrement
+      fakeAnswers: {
+        "jetaime": "C’est mignon… moi aussi ❤️… mais ça n’aide pas pour l’enquête !"
+      }
+	  
+    },
+    {
+      title: "Étape 2",
+      prompt: "Puzzle reconstitué → quel objet révèle la photo ?",
+      answers: ["valise"],
+      hint: "Elle pesait un âne mort cet été."
+    },
+    {
+      title: "Énigme 3 : La grille des souvenirs",
+      text: "Les cases colorées révèlent le passage secret. Remplis-les dans l'ordre.",
+      answers: ["placard"],
+      type: "grid",
+      grid: {
+        size: 7,
+        colors: ["#FF0000","#FFD800","#4CFF00","#00FF90","#0094FF","#4800FF","#FF00DC"]
+      },
+      hint: "Les lettres colorées dans ta grille papier doivent être reportées ici, dans le bon ordre."
+    },
+    {
+      title: "Étape 4",
+      prompt: "Retour vers le passé : reprends la lettre de Noël et observe ce qui sort de l'ordinaire… Quel LIEU secret est révélé ?",
+      answers: ["frigo"],
+      hint: "Certaines lettres ont plus d'allure que les autres…"
+    }
+  ],
+  finale: "✨ Affaire résolue ! Ouvre le frigo : le voleur à peut-être abandonné son butin... 🧺🍫"
+};
+
+// -------- Utilitaires --------
+const normalize = (s) => s
+  .toLowerCase()
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-z0-9]/g, '');
+
+// -------- État --------
+let current = 0;
+let hints = 3;
+
+// -------- DOM helpers --------
+const $ = (id) => document.getElementById(id);
+const log = (msg) => { $("log").textContent = msg; };
+const toast = (msg) => { const t = $("toast"); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); };
+const progress = () => { $("bar").style.width = Math.round((current/config.stages.length)*100) + '%'; };
+
+// -------- Rendu des étapes --------
+function renderStages(){
+  const wrap = $("stages");
+  wrap.innerHTML = '';
+  config.stages.forEach((stage,i)=>{
+    const card = document.createElement('div'); card.className='card';
+    const h = document.createElement('h3'); h.className='stage-title';
+    h.textContent = stage.title + (i<current?' ✅':i===current?' ⏳':' 🔒');
+    const p = document.createElement('p'); p.className='hint';
+    p.textContent = (i<=current)?(stage.prompt||stage.text):"Étape verrouillée";
+    card.appendChild(h); card.appendChild(p);
+    wrap.appendChild(card);
+
+    if(stage.type==='grid' && i===current){
+      const container = document.createElement('div');
+      container.style.display='flex'; container.style.gap='6px';
+      stage.grid.colors.forEach((c,j)=>{
+        const input = document.createElement('input');
+        input.maxLength=1;
+        input.style.width='36px';
+        input.style.height='36px';
+        input.style.textAlign='center';
+        input.style.fontWeight='bold';
+        input.style.backgroundColor=c;
+        input.dataset.index=j;
+        container.appendChild(input);
+      });
+      card.appendChild(container);
+
+      const btn = document.createElement('button'); btn.textContent='Valider';
+      btn.onclick=()=>{
+        const word = Array.from(container.querySelectorAll("input")).map(inp=>inp.value.toLowerCase()).join('');
+        if(stage.answers.includes(word)) nextStage();
+        else toast("Ce n’est pas la bonne combinaison…");
+      };
+      card.appendChild(btn);
+    }
+  });
+}
+
+// -------- Mécanique --------
+function celebrate(){
+  const area = $("celebrate");
+  for(let i=0;i<120;i++){
+    const dot = document.createElement('i');
+    dot.style.left = Math.random()*100 + 'vw';
+    dot.style.top = '-10vh';
+    dot.style.background = `hsl(${Math.random()*360},90%,60%)`;
+    dot.style.transform = `translateY(-20px)`;
+    dot.style.animationDelay = (Math.random()*0.8)+'s';
+    area.appendChild(dot);
+    setTimeout(()=>dot.remove(),1800);
+  }
+}
+
+function update(){
+  renderStages();
+  progress();
+  if(current < config.stages.length){
+    const s = config.stages[current];
+    log(`Étape ${current+1} — ${s.prompt||s.text}`);
+    $("helper").textContent = `Indices restants : ${hints}`;
+  } else {
+    log(config.finale);
+    $("helper").textContent = '';
+    celebrate();
+  }
+}
+
+function nextStage(){ current++; update(); toast("C'est ça ! Rends-toi y !"); }
+
+function validate(){
+  const val = normalize($("answerInput").value);
+  if(!val){ toast('Entre une réponse.'); return; }
+  const s = config.stages[current];
+
+  // Vérifie la fausse réponse
+  if(s.fakeAnswers && s.fakeAnswers[val]){
+    toast(s.fakeAnswers[val]);
+    return;
+  }
+
+  const ok = s.answers.some(a=>normalize(a)===val);
+  if(ok) nextStage();
+  else toast("Hmm… ce n'est pas ça.");
+  $("answerInput").value='';
+}
+
+function giveHint(){
+  if(current >= config.stages.length) return;
+  if(hints<=0){ toast('Plus d\'indices disponibles.'); return; }
+  hints--; toast(config.stages[current].hint);
+  $("helper").textContent = `Indices restants : ${hints}`;
+}
+
+// GM helpers
+$("gmToggle").addEventListener('click',()=>{$("gmPanel").style.display=$("gmPanel").style.display==='block'?'none':'block';});
+$("gmApply").addEventListener('click',()=>{
+  const v=Math.max(1,Math.min(config.stages.length,parseInt($("gmJump").value||1)));
+  current=v-1; update(); toast('Étape forcée.');
+});
+
+// Raccourcis GM
+window.addEventListener('keydown', (e)=>{
+  if(e.altKey && e.key.toLowerCase() === 'n'){ current=Math.min(current+1, config.stages.length); update(); toast('Forcé: étape suivante'); }
+  if(e.altKey && e.key.toLowerCase() === 'h'){ giveHint(); }
+});
+
+// Actions
+$("validateBtn").addEventListener('click',validate);
+$("hintBtn").addEventListener('click',giveHint);
+$("answerInput").addEventListener('keydown',(e)=>{ if(e.key==='Enter') validate(); });
+
+// Init
+update();
+</script>
+</body>
+</html>
+</p>
+    <button onclick="showView('home')">🏠 Retour accueil</button>
+  </div>
+</div>
+
+<!-- ===== Déchiffreur ===== -->
+<div id="decrypt" class="view">
+  <h2>Déchiffreur de l'Énigme</h2>
+  <input id="numbers" placeholder="Entrez la suite de nombres">
+  <input id="key" placeholder="Entrez la clé de déchiffrement">
+  <button id="decodeBtn">Décoder</button>
+  <div id="result"></div>
+  <div id="hint"></div>
+  <button onclick="showView('home')">🏠 Retour accueil</button>
+</div>
+
+<script>
+// -------- Navigation entre vues --------
+function showView(id){
+  document.querySelectorAll('.view').forEach(v => v.style.display='none');
+  document.getElementById(id).style.display='flex';
+}
+
+// -------- Déchiffreur logique --------
+const correctNumbers = "360000400"; 
+const fakeKey = "amour&chocolat"; 
+const realKey = "vraieclé";  // vraie clé pour débloquer l'étape
+const decodedMessage = "je t'aime";
+const trueMessage = "Tiroir à culottes";             // vraie réponse finale
+
+
+document.getElementById("decodeBtn").addEventListener("click",()=>{
+    const nums = document.getElementById("numbers").value.trim();
+    const key = document.getElementById("key").value.trim();
+    const resDiv = document.getElementById("result");
+    const hintDiv = document.getElementById("hint");
+
+    if(nums === correctNumbers && key === fakeKey){
+        resDiv.textContent = decodedMessage;
+    } 
+	else if(nums === decodedMessage && key === realKey){
+        // Cas 3 : vraie clé → vraie réponse
+        resDiv.textContent = trueMessage;
+	}
+	else {
+        // Résultat aléatoire
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let randomRes="";
+        for(let i=0;i<decodedMessage.length;i++){
+            randomRes+=chars[Math.floor(Math.random()*chars.length)];
+        }
+        resDiv.textContent=randomRes;
+        hintDiv.textContent="";
+    }
+});
+</script>
+
+</body>
+</html>
